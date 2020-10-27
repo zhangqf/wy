@@ -1,0 +1,1 @@
+<view class="content"><block wx:for="{{list.data}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view><uni-card vue-id="{{'6199cf00-1-'+index}}" thumbnail data-event-opts="{{[['^click',[['herfTo',['$0'],[[['list.data','',index,'id']]]]]]]}}" bind:click="__e" bind:__l="__l" vue-slots="{{['default']}}"><view>{{item.noticename+''}}</view></uni-card></view></block></view>

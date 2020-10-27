@@ -1,0 +1,1 @@
+<view class="content"><view><uni-card vue-id="50fd7342-1" title="{{list.noticename}}" data-event-opts="{{[['^click',[['herfTo',['$0'],['item.id']]]]]}}" bind:click="__e" bind:__l="__l" vue-slots="{{['default']}}"><view><rich-text nodes="{{list.content}}"></rich-text></view></uni-card></view></view>

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "停车",
+  "usingComponents": {
+    "good-date-picker": "/components/xiaomiaogu-good-date-picker/xiaomiaogu-good-date-picker",
+    "h-time-picker": "/components/h-timePicker/h-timePicker"
+  }
+}

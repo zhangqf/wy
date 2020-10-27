@@ -1,0 +1,1 @@
+<view class="content"><gallery class="main-Gallery" vue-id="0bdc0520-1" galleryLIst="{{galleryLIst}}" host="{{host}}" bind:__l="__l"></gallery><m-item class="ui-mItem" vue-id="0bdc0520-2" itemList="{{itemList}}" bind:__l="__l"></m-item></view>

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "我的建议",
+  "usingComponents": {
+    "uni-card": "/components/uni-card/uni-card",
+    "uni-tag": "/components/uni-tag/uni-tag"
+  }
+}

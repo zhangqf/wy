@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "首页",
+  "usingComponents": {
+    "gallery": "/components/m-gallery/m-gallery",
+    "m-item": "/components/m-item/m-item"
+  }
+}

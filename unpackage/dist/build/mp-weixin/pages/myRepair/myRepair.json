@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "我的报修",
+  "usingComponents": {
+    "uni-card": "/components/uni-card/uni-card",
+    "uni-tag": "/components/uni-tag/uni-tag",
+    "uni-list": "/components/uni-list/uni-list",
+    "uni-list-item": "/components/uni-list-item/uni-list-item"
+  }
+}
