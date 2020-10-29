@@ -2,11 +2,11 @@ import request from '@/common/request.js'
 module.exports = {
 	// 登录
 	login(data) {
-		return request(`/api/ownerLogin?phone=${data.phone}&&password=${data.password}`, 'POST');
+		return request(`/api/ownerLogin?phone=${data.phone}&password=${data.password}&code=${data.code}`, 'POST');
 	},
 	// 修改密码
 	editClientPwd(data){
-		return request(`/api/editClientPwd?id=${data.id}&&oldPwd=${data.oldPwd}&&nowPwd=${data.nowPwd}`,'POST',data)
+		return request(`/api/editClientPwd?id=${data.id}&oldPwd=${data.oldPwd}&nowPwd=${data.nowPwd}`,'POST',data)
 	},
 
 	// 获取报修项目
@@ -55,7 +55,8 @@ module.exports = {
 	},
 	// 报修评价
 	saveSatis(data){
-		return request(`/api/saveSatis?orderId=${data.orderId}&&remark=${data.remark}&&satisId=${data.satisId}`,"POST")
+		return request(`/api/saveSatis?orderId=${data.orderId}&remark=${data.remark}&satisId=${data.satisId}&serviceSro=${data.serviceSro}
+		&professionalSro=${data.professionalSro}&maintenanceSro=${data.maintenanceSro}&comprehensiveSro=${data.comprehensiveSro}&maintid=${data.maintid}`,"POST")
 	},
 	// 公告详情
 	getNoticeById(data){
@@ -65,7 +66,10 @@ module.exports = {
 	selCilentById(data){
 		return request(`/api/selCilentById?id=${data}`,"GET")
 	},
-	
+	// 获取维修工人
+	getMaintList(){
+		return request(`/api/getMaintList`,"GET")
+	},
 	
 	
 	
@@ -130,7 +134,7 @@ module.exports = {
 	},
 	// 完成维修
 	saveReceives(data){
-		return request(`/api/saveReceives?orderId=${data.orderId}&&remark=${data.remark}&&receImgs=${data.receImgs}`,'post')
+		return request(`/api/saveReceives?orderId=${data.orderId}&remark=${data.remark}&receImgs=${data.receImgs}&isTimeout=${data.isTimeout}`,'post')
 	},
 	/* 获取维修工信息 */
 	getMaintById(data){

@@ -46,7 +46,7 @@ export default {
 		dayNum: {
 			//预约天数
 			type: [Number, String],
-			default: '7'
+			default: '30'
 		}
 	},
 	data() {

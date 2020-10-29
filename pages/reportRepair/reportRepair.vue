@@ -1,23 +1,60 @@
 <template>
 	<view class="content">
-		
+
 		<view class="block__title">报修信息</view>
 		<view class="ui-select">
+			<view class="ui-selectType">报修项目</view>
+			<view style="width: 77%; margin: auto;margin-top: 0;display: inline-block;">
+				<xfl-select ref="xfl" :list="repairListName" :clearable="false" :showItemNum="5" :listShow="false" :isCanInput="false"
+				 :style_Container="'height: 50px; font-size: 16px;border:none'" :placeholder="'请选择'" :selectHideType="'hideAll'">
+				</xfl-select>
+			</view>
+		</view>
+		<view class="ui-select">
 			<view class="ui-selectType">报修类型</view>
-			<view style="width: 93%; margin: auto; margin-bottom: 20px;margin-top: 0;">
+			<view style="width: 77%; margin: auto;margin-top: 0;display: inline-block;">
 				<xfl-select ref="typeRepair" :list="repairTypeName" :clearable="false" :showItemNum="5" :listShow="false"
-				 :isCanInput="false" :style_Container="'height: 50px; font-size: 16px;'" :placeholder="'请选择'" :selectHideType="'hideAll'">
+				 :isCanInput="false" :style_Container="'height: 50px; font-size: 16px;border:none'" :placeholder="'请选择'"
+				 :selectHideType="'hideAll'">
 				</xfl-select>
 			</view>
 		</view>
 
+		
 		<view class="ui-select">
-			<view class="ui-selectType">报修项目</view>
-			<view style="width: 93%; margin: auto; margin-bottom: 20px;margin-top: 0;">
-				<xfl-select ref="xfl" :list="repairListName" :clearable="false" :showItemNum="5" :listShow="false" :isCanInput="false"
-				 :style_Container="'height: 50px; font-size: 16px;'" :placeholder="'请选择'" :selectHideType="'hideAll'">
-				</xfl-select>
+			<view class="ui-selectType">指派师傅</view>
+			<view style="width: 77%; margin: auto;margin-top: 0;display: inline-block;">
+				<input  disabled class="ui-input" type="text" :value="name!=''?name:''" placeholder-style="color:#bbb" placeholder="选择指派师傅(选填)" @click="chooseRepair" />
+				<!-- 		<xfl-select ref="xfl" :list="repairListName" :clearable="false" :showItemNum="5" :listShow="false" :isCanInput="false"
+				 :style_Container="'height: 50px; font-size: 16px;border:none'"  :placeholder="'请选择'" :selectHideType="'hideAll'">
+				</xfl-select> -->
 			</view>
+		</view>
+		<view class="ui-parkingGroup">
+			<view class="ui-parkingTitle">
+				预约时间
+			</view>
+			<!-- <picker class="ui-parkingInput" mode="time" :value="time" start="00:00" end="23:59" @change="bindTimeChange">
+				<view class="uni-input" :class="time==null?'ui-parkingTime':''" placeholder="请选择停车时长">{{time==null?'请选择停车时长':time}}</view>
+			</picker> -->
+			<hTimePicker class="ui-parkingInput" sTime="0" cTime="23" interval="1" @changeTime="changePresetTime">
+				<view slot="pCon" class="changeTime" :style="startTime==null?'color:#bbb':''">
+					{{startTime==null?"选择预约时间":startTime}}
+				</view>
+			</hTimePicker>
+		</view>
+		<view class="ui-parkingGroup">
+			<view class="ui-parkingTitle">
+				完成时间
+			</view>
+			<!-- <picker class="ui-parkingInput" mode="time" :value="time" start="00:00" end="23:59" @change="bindTimeChange">
+				<view class="uni-input" :class="time==null?'ui-parkingTime':''" placeholder="请选择停车时长">{{time==null?'请选择停车时长':time}}</view>
+			</picker> -->
+			<hTimePicker class="ui-parkingInput" sTime="0" cTime="23" interval="1" @changeTime="changeCompleteTime">
+				<view slot="pCon" class="changeTime" :style="endTime==null?'color:#bbb':''">
+					{{endTime==null?"选择完成时间":endTime}}
+				</view>
+			</hTimePicker>
 		</view>
 
 		<view class="cu-form-group">
@@ -62,15 +99,19 @@
 
 <script>
 	import xflSelect from '../../components/xfl-select/xfl-select.vue';
+	import hTimePicker from "@/components/h-timePicker/h-timePicker.vue";
 	import host from '../../common/config.js'
 	export default {
 		components: {
 			// MySelect,
-			xflSelect
+			xflSelect,
+			hTimePicker
 		},
 		data() {
 			return {
-				isShow:false,
+				startTime: null,
+				endTime: null,
+				isShow: false,
 				percent: null,
 				imgList: [],
 				imageIndex: 0,
@@ -95,6 +136,9 @@
 				photos: [],
 				communityId: "123",
 				// 
+				warrid:'',
+				repairid:'',
+				maintid:'',
 				repairList: null,
 				repairTypeList: null,
 				repairListName: ["无数据"],
@@ -105,16 +149,17 @@
 		 * 生命周期函数--监听页面加载
 		 */
 		onLoad: function(options) {
+			console.log(options)
 			let that = this;
 			this.$api.getReports().then(res => {
 				uni.hideLoading()
 				that.repairList = res.data
-				 uni.hideLoading();
+				uni.hideLoading();
 				that.repairListName = that.chooseRepairListName(res.data)
 
 			});
 			this.$api.getWarrs().then(res => {
-					uni.hideLoading()
+				uni.hideLoading()
 				that.repairTypeList = res.data
 				console.log(res.data)
 				that.repairTypeName = that.chooseRepairListName(res.data)
@@ -133,7 +178,10 @@
 		 * 生命周期函数--监听页面显示
 		 */
 		onShow: function() {
-
+			var pages = getCurrentPages();
+			var currPage = pages[pages.length - 1]; //当前页面
+			let currDate = currPage.data.param;
+			this.maintid = currDate
 		},
 
 		/**
@@ -161,6 +209,21 @@
 		 */
 		onShareAppMessage: function() {},
 		methods: {
+			// 
+			chooseRepair() {
+				// let obj = {
+				// 	"userid": uni.getStorageSync("clientmessageid"),
+				// 	"warrid": this.warrid,
+				// 	"repairid": this.repairid,
+				// 	"repimgs": null,
+				// 	"content": this.context,
+				// };
+				// this.chooseRepairId(this.repairList, this.$refs.xfl._data.selectText)
+				// this.chooseRepairId(this.repairTypeList, this.$refs.typeRepair._data.selectText)
+				uni.navigateTo({
+					url: `/pages/chooseRepair/chooseRepair?id=${this.maintid}`,
+				})
+			},
 			chooseRepairListName(data, listName) {
 				const arrName = [];
 				data.map((item, index) => {
@@ -230,6 +293,14 @@
 				this.roomName = this.roomCloums[e.detail.value];
 				this.roomId = this.roomIdArr[e.detail.value];
 			},
+			changePresetTime(time, timeStamp) {
+				this.startTime = time
+			},
+			changeCompleteTime(time, timeStamp) {
+				console.log(time)
+				console.log(timeStamp)
+				this.endTime = time
+			},
 			bindInput: function(e) {
 				console.log('数据监听', e);
 				switch (e.target.id) {
@@ -246,6 +317,7 @@
 				console.log(this);
 			},
 			bindOwner: function(e) {
+				console.log(1231)
 				this.chooseRepairId(this.repairList, this.$refs.xfl._data.selectText)
 				this.chooseRepairId(this.repairTypeList, this.$refs.typeRepair._data.selectText)
 				console.log(this.$refs.xfl._data.selectText);
@@ -255,19 +327,27 @@
 					"repairid": this.repairid,
 					"repimgs": null,
 					"content": this.context,
+					"maintid": this.maintid,
+					"startTime": this.startTime,
+					"endTime": this.endTime
 				};
 				let _photos = this.photos;
 				let photo = []
 				_photos.forEach(function(_item) {
-					photo.push( _item);
+					photo.push(_item);
 				});
 				let msg = "";
 				obj.repimgs = photo.join(",")
-				if (obj.repairid == "") {
+				if (obj.repairid == ""||obj.repairid== undefined) {
 					msg = "请选择报修项目";
-				} else if (obj.warrid == "") {
+				} else if (obj.warrid == "" ||obj.warrid== undefined) {
 					msg = "请选择报修类型";
-				} else if (obj.context == "") {
+				} else if (obj.startTime == "" ||obj.startTime== undefined) {
+					msg = "请选择预约时间";
+				}else if (obj.endTime == "" ||obj.endTime== undefined) {
+					msg = "请选择完成时间";
+				}else if (obj.content ==
+					""||obj.content== undefined) {
 					msg = "请填写报修内容";
 				}
 
@@ -279,13 +359,13 @@
 					});
 				} else {
 					console.log("提交数据", obj);
-					this.$api.saveWorkOrder(obj).then(res=>{
-						console.log(res)
-						if(res.code==200){
+					this.$api.saveWorkOrder(obj).then(res => {
+						
+						if (res.code == 200) {
 							uni.redirectTo({
-							    url: `../myRepair/myRepair?id=${uni.getStorageSync("clientmessageid")}`
+								url: `../myRepair/myRepair?id=${uni.getStorageSync("clientmessageid")}`
 							});
-						}else{
+						} else {
 							wx.showToast({
 								title: res.msg,
 								icon: 'none',
@@ -293,13 +373,14 @@
 							});
 						}
 					})
-					
+
 					//  wx.redirectTo({
 					// 	url: '/pages/repairDispatchFinish/repairDispatchFinish',
 					// })
 				}
 			},
-			onChange: function(e) {console.log(res)
+			onChange: function(e) {
+				console.log(res)
 
 			},
 			onTypeConfirm: function(e) {
@@ -363,6 +444,65 @@
 	};
 </script>
 <style>
+	.ui-parkingGroup {
+		display: flex;
+		align-items: center;
+		background-color: #fff;
+		padding-left: 24rpx;
+		border-bottom: 1rpx solid #eef1ef;
+		margin-bottom: 32rpx;
+	}
+
+	.ui-parkingTextareaTitle {
+		height: 100rpx;
+		line-height: 100rpx;
+		padding-left: 34rpx;
+	}
+
+	.ui-parkingTextareaGroup {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		background-color: #fff;
+		border-bottom: 1rpx solid #eef1ef;
+		padding-bottom: 100rpx;
+	}
+
+	.ui-parkingTitle {
+		padding-left: 10rpx;
+	}
+
+	.ui-parkingTextarea {
+		height: 200rpx;
+		width: 90%;
+		margin: 0 auto;
+		border: 2rpx solid #e6e6e6;
+		border-radius: 16rpx;
+		padding: 18rpx;
+		text-indent: 32rpx;
+	}
+
+	.ui-parkingHeader {
+		color: #8F8F94;
+		padding: 36rpx;
+	}
+
+	.ui-parkingContent {
+		background-color: #fff;
+	}
+
+	.ui-parkingTime {
+		color: #808080;
+	}
+
+	.ui-parkingInput {
+		color: #464646;
+		width: 74%;
+		height: 100rpx;
+		line-height: 100rpx;
+		padding-left: 40rpx;
+	}
+
 	.content {
 		padding-bottom: 300rpx;
 	}
@@ -371,15 +511,14 @@
 		width: 100%;
 		background-color: #fff;
 		margin-bottom: 32rpx;
-
+    display: flex;
+    align-items: center;
 
 	}
 
 	.ui-selectType {
 		padding-left: 32rpx;
-		min-height: 100rpx;
-		display: flex;
-		align-items: center;
+		display: inline-block;
 	}
 
 	.ui-parkingUpload {
@@ -681,5 +820,15 @@
 	.ui-wh {
 		width: 40rpx;
 		height: 40rpx;
+	}
+
+
+
+	.ui-input {
+		color: #464646;
+		width: 74%;
+		height: 100rpx;
+		line-height: 100rpx;
+		padding-left: 32rpx;
 	}
 </style>

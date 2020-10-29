@@ -5,7 +5,7 @@
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
 				<view class="bock-icon "></view>
-				<text class="margin-left-xs">第三方</text>
+				<text class="margin-left-xs" @click="getSub">第三方</text>
 			</view>
 		</view>
 		<view class="categoryList padding-top-xs bg-white">
@@ -193,6 +193,14 @@
 					cancelColor: "#c2c0b5",
 					confirmText: "确定",
 					confirmColor: "#007AFF"
+				})
+			},
+			getSub(){
+				uni.requestSubscribeMessage({
+				  tmplIds: ['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'],
+				  success (res) {
+						console.log(res)
+					}
 				})
 			},
 			guideToLogin() {

@@ -9,10 +9,10 @@
 			<Avatar v-else :img="host+''+img"></Avatar>
 			<view class="ui-text">{{userName!=null?userName:'username'}}</view>
 		</view>
-		<view v-if="roleType" class="ui-userList">
+		<view  class="ui-userList">
 			<UserList :list="list"></UserList>
 		</view>
-		<view v-else class="ui-userList">
+		<!-- <view v-else class="ui-userList">
 			
 			<ul class="ui-listcontent">
 				<li class="ui-listContentLi" >
@@ -32,9 +32,9 @@
 				</li>
 			</ul>
 		
-		</view>
+		</view> -->
 		<view class="btn-row">
-			<button v-if="!roleType" style="margin-bottom: 20rpx;" type="default" class="ui-blue" @tap="herfTo()">修改密码</button>
+			<!-- <button v-if="!roleType" style="margin-bottom: 20rpx;" type="default" class="ui-blue" @tap="herfTo()">修改密码</button> -->
 			<button type="default" class="ui-red" @tap="bindLogout">退出</button>
 		</view>
 	</view>
@@ -102,8 +102,8 @@
 				
 			}
 			if(uni.getStorageSync('soleType')==3){
-				this.roleType = false
-				this.getList()
+				console.log(12132)
+				this.list.splice(1,2)
 			}
 			 
 		},
@@ -130,16 +130,16 @@
 					url:"../changePassword/changePassword"
 				})
 			},
-			getList(){
-				let obj = {
-					id:uni.getStorageSync("clientmessageid"),
-					};
-				this.$api.getMaintById(obj).then(res=>{
-					 uni.hideLoading();
-					 console.log(res)
-					this.list = res.data
-				})
-			},
+			// getList(){
+			// 	let obj = {
+			// 		id:uni.getStorageSync("clientmessageid"),
+			// 		};
+			// 	this.$api.getMaintById(obj).then(res=>{
+			// 		 uni.hideLoading();
+			// 		 console.log(res)
+			// 		this.list = res.data
+			// 	})
+			// },
 			
 			bindLogout() {
 			let that = this

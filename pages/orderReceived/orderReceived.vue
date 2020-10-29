@@ -17,13 +17,15 @@
 									 :loadingTip="loadingTip" :emptyTip="emptyTip" :touchHeight="touchHeight" :height="height" :bottom="bottom"
 									 :autoPullUp="autoPullUp" @onPullDown="handlePullDown" @onPullUp="handleLoadMore">
 									<view class="swiper-item uni-bg-red">
-										<uni-card @click="hrefTo(item.id)" title="已接工单" note="true" v-for="(item,index) in orderList " :extra="item.createtime | renderTime"
+										<uni-card @click="hrefTo(item.id,item.endTime)" title="已接工单" note="true" v-for="(item,index) in orderList " :extra="item.createtime | renderTime"
 										 :key="item.id">
 											<view class="ui-item">业主名称: <span class="ui-span">{{item.userName}}</span></view>
 											<view class="ui-item">报修住址: <span class="ui-span">{{item.buildName}}{{item.loucName}}层{{item.roomName}}室</span></view>
 											<view class="ui-item">联系电话: <span class="ui-span">{{item.userTel}}</span></view>
 											<view class="ui-item">报修项目: <span class="ui-span">{{item.repairName}}</span></view>
 											<view class="ui-item">报修类型: <span class="ui-span">{{item.warrName}}</span></view>
+											<view class="ui-item">预约时间: <span class="ui-span">{{item.startTime | renderTime}}</span></view>
+											<view class="ui-item">完成时间: <span class="ui-span">{{item.endTime | renderTime}}</span></view>
 											<view v-if="item.content" class="ui-item">报修描述: <span class="ui-span">{{item.content}}</span></view>
 											<view class="ui-item ui-display">
 												<image @click="preview(itemImg)" v-if="itemImg" v-for="(itemImg,index) in item.imgList" :key="index" :src="host+''+itemImg"
@@ -155,9 +157,9 @@
 					this.orderList = res.data
 				})
 			},
-			hrefTo(data) {
+			hrefTo(data ,endTime) {
 				uni.redirectTo({
-					url: `../orderReceivedDetail/orderReceivedDetail?id=${data}`
+					url: `../orderReceivedDetail/orderReceivedDetail?id=${data}&endtime=${endTime}`
 				})
 			}
 		}

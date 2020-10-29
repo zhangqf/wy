@@ -6,7 +6,7 @@
 			<view class="ui-item">报修住址: <span class="ui-span">{{list.buildName}}{{list.loucName}}层{{list.roomName}}室</span></view>
 			<view class="ui-item">报修类型: <span class="ui-span">{{list.warrName}}</span></view>
 			<view class="ui-item">报修项目: <span class="ui-span">{{list.repairName}}</span></view>
-			
+
 			<view v-if="list.content" class="ui-item">报修描述: <span class="ui-span">{{list.content}}</span></view>
 			<view class="ui-item" v-if="list.myimgList">故障图片: </view>
 			<view class="ui-item ui-display">
@@ -36,10 +36,27 @@
 		<view v-if="list.state==3" class="ui-comment">
 			<view class="cell_dashed">
 			</view>
-			<view class="ui-item">评价</view>
+			<view class="ui-item" style="width: 90%">评价</view>
 			<textarea v-model="remark" placeholder="对维修人员的工作评价" />
-			<view  class="ui-item">满意度</view>
-			<uni-rate :margin="20" class="ui-rate" v-model="value" @change="onChange"/>
+			<view class="rate-box">
+				<view  class="ui-item">服务态度</view>
+				<uni-rate :margin="20" class="ui-rate" v-model="serviceSro" @change="onChangeserviceSro"/>
+			</view>
+			<view class="rate-box">
+				<view  class="ui-item ">专业技术</view>
+				<uni-rate :margin="20" class="ui-rate" v-model="professionalSro" @change="onChangeprofessionalSro"/>
+			</view>
+			
+			<view class="rate-box">
+				<view  class="ui-item ">维修效率</view>
+				<uni-rate :margin="20" class="ui-rate" v-model="maintenanceSro" @change="onChangemaintenanceSro"/>
+			</view>
+		
+			<view class="rate-box">
+				<view  class="ui-item ">综合评价</view>
+				<uni-rate :margin="20" class="ui-rate" v-model="comprehensiveSro" :readonly="true"/>
+			</view>
+	
 		 <button class="primary" @click="submit">提交</button>
 	</view>
 	<view v-if="list.state==4" class="ui-ratecontent">
@@ -68,7 +85,10 @@
 				remark:null,
 				rate:null,
 				rateList:null,
-			
+				serviceSro:null,
+				professionalSro:null,
+				maintenanceSro:null,
+				comprehensiveSro:null,
 			};
 		},
 		components: {
@@ -122,21 +142,57 @@
 			},
 			
 			submit(){
-				if(this.rate==null){
+				// if(this.rate==null){
+				// 	wx.showToast({
+				// 		title: "请为维修员评分",
+				// 		icon: 'none',
+				// 		duration: 2000
+				// 	});
+				// 	return
+				// }		
+				if(this.remark==null){
 					wx.showToast({
-						title: "请为维修员评分",
+						title: "请填写评价",
 						icon: 'none',
 						duration: 2000
 					});
 					return
-				}		
+				}	
+				if(this.serviceSro==null){
+					wx.showToast({
+						title: "请为维修员服务态度评分",
+						icon: 'none',
+						duration: 2000
+					});
+					return
+				}	
+				if(this.professionalSro==null){
+					wx.showToast({
+						title: "请为维修员专业技术评分",
+						icon: 'none',
+						duration: 2000
+					});
+					return
+				}	
+				if(this.maintenanceSro==null){
+					wx.showToast({
+						title: "请为维修员维修效率评分",
+						icon: 'none',
+						duration: 2000
+					});
+					return
+				}	
 				
 				let obj = {
 					orderId:Number(this.list.id),
 					remark:this.remark,
-					satisId:this.rate
+					satisId:this.comprehensiveSro,
+					serviceSro:this.serviceSro,
+					professionalSro:this.professionalSro,
+					maintenanceSro:this.maintenanceSro,
+					comprehensiveSro:this.comprehensiveSro,
+					maintid:this.list.maintid
 				};
-				console.log("bb")
 				this.$api.saveSatis(obj).then(res=>{
 					console.log(res)
 					if(res.code==200){
@@ -146,8 +202,41 @@
 					}
 				})
 			},
+			// 四舍五入 向下向上取整
+			floorOrceil(num){
+				return String(num).substring(String(num).indexOf('.')+1,String(num).indexOf('.')+2)>=5?Math.ceil(num):Math.floor(num)
+			},
+			onChangeserviceSro(e){
+				this.serviceSro = e.value
+				this.professionalSro==null?0:this.professionalSro
+				this.maintenanceSro==null?0:this.maintenanceSro
+				this.comprehensiveSro =this.floorOrceil((this.serviceSro +  this.professionalSro +this.maintenanceSro)/15*5)
+					
+			},
+			onChangeprofessionalSro(e){
+				this.professionalSro = e.value
+				this.serviceSro==null?0:this.serviceSro
+				this.maintenanceSro==null?0:this.maintenanceSro
+				this.comprehensiveSro = this.floorOrceil((this.serviceSro +  this.professionalSro +this.maintenanceSro)/15*5)
+				
+					
+			},
+			onChangemaintenanceSro(e){
+				this.maintenanceSro = e.value
+				this.serviceSro==null?0:this.serviceSro
+				this.maintenanceSro==null?0:this.maintenanceSro
+				this.comprehensiveSro = this.floorOrceil((this.serviceSro +  this.professionalSro +this.maintenanceSro)/15*5)
+	
+			},
 			onChange(e){
 				this.rate = e.value;
+				this.serviceSro = e.serviceSro==undefined?0:e.serviceSro;
+				
+				this.professionalSro = e.professionalSro==undefined?0:e.professionalSro;
+				
+				this.maintenanceSro = e.maintenanceSro==undefined?0:e.maintenanceSro;
+				
+		
 			}
 		}
 	}
@@ -188,10 +277,8 @@
 		}
 	}
 	.ui-rate{
-		width: 80%;
 		margin: 20rpx 0 50rpx;
-		padding-left: 150rpx;
-		display: block;
+		display: inline-block;
 	}
 	button.primary {
 		width: 80%;
@@ -209,7 +296,7 @@
 		background: #FFF;
 		margin-bottom: 150rpx;
 		.ui-item{
-			width: 90%;
+		
 			margin: 0 auto;
 		}
 	}
@@ -244,4 +331,16 @@
 	.ui-item{
 		padding: 10rpx 0;
 	}
+.rate-box{
+	width: 90%;
+	margin: 0 auto;
+	.ui-item{
+		display: inline-block;
+		margin-right: 18rpx;
+		width: 128rpx;
+	}
+	.ui-rate{
+		vertical-align: -4px;
+	}
+}
 </style>

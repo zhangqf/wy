@@ -115,51 +115,65 @@
 					password: this.password
 				};
 				let _self = this;
-				console.log(34112)				
-				this.$api.login({
-					phone: _self.username,
-					password: _self.password,
-				}).then(res=>{
-					console.log(res)
-					if(res.code==200){
-						uni.hideLoading();
-						console.log(342)		
-						// uni.setStorageSync('uniIdToken', res.data.clientmessageid)
-						// uni.setStorageSync('clientmessageid', res.data.clientmessageid)
-						// uni.setStorageSync('username', res.data.clientname)
-						// uni.setStorageSync('login_type', 'online')
-						uni.setStorageSync('soleType',res.data.soleType)
-						if(res.data.soleType==1){
-							uni.setStorageSync('uniIdToken', res.data.clientmessageid)
-							uni.setStorageSync('clientmessageid', res.data.clientmessageid)
-							uni.setStorageSync('username', res.data.clientname)
-							uni.setStorageSync('login_type', 'online')
+				console.log(34112)
+				uni.login({
+				  provider: 'weixin',
+				  success: function (loginRes) {
+						console.log(loginRes)
+						if(loginRes.errMsg=="login:ok"){
+							_self.$api.login({
+								phone: _self.username,
+								password: _self.password,
+								code:loginRes.code
+							}).then(res=>{
+								console.log(res)
+								if(res.code==200){
+									uni.hideLoading();
+									console.log(342)	
+										
+									// uni.setStorageSync('uniIdToken', res.data.clientmessageid)
+									// uni.setStorageSync('clientmessageid', res.data.clientmessageid)
+									// uni.setStorageSync('username', res.data.clientname)
+									// uni.setStorageSync('login_type', 'online')
+									uni.setStorageSync('soleType',res.data.soleType)
+									if(res.data.soleType==1){
+										uni.setStorageSync('uniIdToken', res.data.clientmessageid)
+										uni.setStorageSync('clientmessageid', res.data.clientmessageid)
+										uni.setStorageSync('username', res.data.clientname)
+										uni.setStorageSync('login_type', 'online')
+									}
+									if(res.data.soleType==2){
+										uni.setStorageSync('uniIdToken', res.data.id)
+										uni.setStorageSync('clientmessageid', res.data.id)
+										uni.setStorageSync('username', res.data.name)
+										uni.setStorageSync('icon', res.data.icon)
+										uni.setStorageSync('login_type', 'online')
+									}
+									if(res.data.soleType==3){
+										uni.setStorageSync('username', res.data.name)
+										uni.setStorageSync('uniIdToken', res.data.id)
+										uni.setStorageSync('clientmessageid', res.data.id)
+										uni.setStorageSync('login_type', 'online')
+									}
+									_self.toMain(_self.username);
+									console.log(res.data)
+									console.log(_self.getUserInfo)
+									_self.getUserInfo(res.data)
+								}else{
+									
+									uni.showModal({
+										content: res.msg
+									})
+									uni.hideLoading();
+								}
+							})
+											  
 						}
-						if(res.data.soleType==2){
-							uni.setStorageSync('uniIdToken', res.data.id)
-							uni.setStorageSync('clientmessageid', res.data.id)
-							uni.setStorageSync('username', res.data.name)
-							uni.setStorageSync('icon', res.data.icon)
-							uni.setStorageSync('login_type', 'online')
-						}
-						if(res.data.soleType==3){
-							uni.setStorageSync('username', res.data.name)
-							uni.setStorageSync('uniIdToken', res.data.id)
-							uni.setStorageSync('clientmessageid', res.data.id)
-							uni.setStorageSync('login_type', 'online')
-						}
-						_self.toMain(_self.username);
-						console.log(res.data)
-						console.log(_self.getUserInfo)
-						_self.getUserInfo(res.data)
-					}else{
 						
-						uni.showModal({
-							content: res.msg
-						})
-						uni.hideLoading();
+				    
 					}
-				})
+				});
+				
 			},
 			loginLocal(nickName) {
 				uni.setStorageSync('login_type', 'local')

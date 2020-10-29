@@ -88,6 +88,7 @@
 			// let that = this;
 			console.log(options)
 			this.orderId = options.id
+			this.endTime = options.endtime
 		},
 
 		/**
@@ -212,10 +213,19 @@
 				console.log(this);
 			},
 			bindOwner: function(e) {
+				console.log(this.endTime)
+				let oldtime = new Date(this.endTime).getTime();
+				let currentTime = new Date().getTime();
+				if(oldtime>=currentTime){
+					this.isTimeout=0;
+				}else{
+					this.isTimeout=1;
+				}
 				let obj = {
 					"receImgs": null,
 					"orderId":this.orderId,
 					"remark": this.context,
+					"isTimeout":this.isTimeout
 				};
 				let _photos = this.photos;
 				let photo = []

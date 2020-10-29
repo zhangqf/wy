@@ -154,6 +154,10 @@
             "path" : "pages/myelectricity/myelectricity",
             "style" : {}
         }
+        ,{
+            "path" : "pages/chooseRepair/chooseRepair",
+            "style" : {}
+        }
     ],
 	// "subPackages":[{
 	// 		"root":"maintenance/main/main",

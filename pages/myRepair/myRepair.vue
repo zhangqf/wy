@@ -10,6 +10,8 @@
 				<view class="ui-item">报修住址: <span class="ui-span">{{item.buildName}}{{item.loucName}}层{{item.roomName}}室</span></view>
 				<view class="ui-item">报修类型: <span class="ui-span">{{item.warrName}}</span></view>
 				<view class="ui-item">报修项目: <span class="ui-span">{{item.repairName}}</span></view>
+				<view class="ui-item">预约时间: <span class="ui-span">{{item.startTime | renderTime}}</span></view>
+				<view class="ui-item">完成时间: <span class="ui-span">{{item.endTime | renderTime}}</span></view>
 				<view v-if="item.content" class="ui-item">报修描述: <span class="ui-span">{{item.content}}</span></view>
 				<view class="ui-item ui-display">
 					<image @click="preview(itemImg)" v-if="itemImg" v-for="(itemImg,indexs) in item.imgList" :key="indexs" :src="host+''+itemImg"
@@ -36,7 +38,7 @@
 				<view class="ui-item">报修住址: <span class="ui-span">{{item.buildName}}{{item.loucName}}层{{item.roomName}}室</span></view>
 
 				<view class="ui-item">联系电话: <span class="ui-span">{{item.userTel}}</span></view>
-				<view class="ui-item">报修类型: <span class="ui-span">{{item.warrName}}</span></view>
+				<view class="ui-item">报修类型: <span class="ui-span">{{item.warrName }}</span></view>
 				<view class="ui-item">报修项目: <span class="ui-span">{{item.repairName}}</span></view>
 				<view v-if="item.content" class="ui-item">报修描述: <span class="ui-span">{{item.content}}</span></view>
 				<view class="ui-item ui-display">
@@ -80,8 +82,23 @@
 					</view>
 					<view class="ui-item">评价：</view>
 					<textarea v-model="item.evaluatetext" placeholder="" :disabled="true" />
-					<view  class="ui-item ui-state4">满意度</view>
-				<uni-rate :margin="20" class="ui-rate" :value="item.satisid" @change="onChange" :readonly="true"/>
+					<view>
+						<view  class="ui-item ui-state4">服务态度</view>
+						<uni-rate :margin="20" class="ui-rate ui-state4  ui-leftmargin" :value="item.serviceSro" @change="onChange" :readonly="true"/>
+					</view>
+				<view>
+					<view  class="ui-item ui-state4">专业技术</view>
+					<uni-rate :margin="20" class="ui-rate ui-state4 ui-leftmargin" :value="item.professionalSro" @change="onChange" :readonly="true"/>
+				</view>
+					<view>
+						<view  class="ui-item ui-state4">维修效率</view>
+						<uni-rate :margin="20" class="ui-rate ui-state4 ui-leftmargin" :value="item.maintenanceSro" @change="onChange" :readonly="true"/>
+					</view>
+					<view>
+						<view  class="ui-item ui-state4">综合评分</view>
+						<uni-rate :margin="20" class="ui-rate ui-state4 ui-leftmargin" :value="item.comprehensiveSro" @change="onChange" :readonly="true"/>
+					</view>
+					
 			</view>
 		</uni-card>
 		 	</k-scroll-view>
@@ -335,6 +352,12 @@
 </script>
 
 <style lang="less" scoped>
+	.ui-state4{
+		display: inline-block;
+	}
+	.ui-leftmargin{
+		margin-left: 32rpx;
+	}
 	.content{
 		padding-bottom: 0;
 	}
