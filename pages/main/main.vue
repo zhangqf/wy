@@ -1,11 +1,11 @@
 <template>
-	<view class="content">
+	<view class="content" @click="getscope">
 		<Gallery :galleryLIst="galleryLIst" :host="host" class="main-Gallery"></Gallery>
 		<MItem class="ui-mItem" :itemList="itemList"></MItem>
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
 				<view class="bock-icon "></view>
-				<text class="margin-left-xs" @click="getSub">第三方</text>
+				<text class="margin-left-xs">第三方</text>
 			</view>
 		</view>
 		<view class="categoryList padding-top-xs bg-white">
@@ -49,6 +49,7 @@
 				itemList: [
 				],
 				host: "",
+				isSubscribe:false
 			}
 		},
 		computed: mapState(['forcedLogin', 'hasLogin', 'userName']),
@@ -59,6 +60,11 @@
 				})
 			}
 			this.getRoleTypeContent()
+		
+			
+			
+			
+			
 		},
 		onLoad() {
 			this.getRoleTypeContent()
@@ -78,6 +84,36 @@
 			let uniIdToken = uni.getStorageSync('username')
 			if (uniIdToken) {
 				this.login(uni.getStorageSync('username'))
+				// var _this = this;
+				//     //判断是否已经订阅
+				//     wx.getSetting({
+				//       withSubscriptions: true,
+				//       success(res) {
+				// 				console.log(res)
+				//         var itemSettings = res.subscriptionsSetting.itemSettings;
+				// 				console.log(itemSettings)
+				//         if (itemSettings) {
+				//           if (itemSettings['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw']=='accept') {
+				//             _this.isSubscribe= true
+				            
+				//           }
+				//         }
+				//       }
+				//     })
+				// if(!this.isSubscribe){
+				// 	uni.showModal({
+				// 		title: '订阅消息',
+				// 		content: '是否订阅消息',
+				// 		success: (res) => {
+				// 			if (res.confirm) {
+				// 				console.log(123)
+				// 				this.getSub()
+				// 			} else {
+										
+				// 			}
+				// 		},
+				// 	});
+				// }
 				
 			} else {
 				this.guideToLogin()
@@ -195,13 +231,14 @@
 					confirmColor: "#007AFF"
 				})
 			},
-			getSub(){
+			getscope(){
+				console.log(11123)
 				uni.requestSubscribeMessage({
-				  tmplIds: ['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'],
-				  success (res) {
+					tmplIds: ['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'],
+					success (res) {
 						console.log(res)
 					}
-				})
+				})	
 			},
 			guideToLogin() {
 				uni.showModal({

@@ -15,7 +15,7 @@
 								 :autoPullUp="autoPullUp" @onPullDown="handlePullDown" @onPullUp="handleLoadMore">
 								
 								<view class="swiper-item uni-bg-red">
-									<uni-card @click="hrefTo(item.id)" title="已完成工单" note="true" v-for="(item,index) in list " :extra="item.receivetime | renderTime"
+									<uni-card title="已完成工单" note="true" v-for="(item,index) in list " :extra="item.receivetime | renderTime"
 									 :key="item.id">
 										<view class="ui-item">业主名称: <span class="ui-span">{{item.userName}}</span></view>
 										
@@ -23,7 +23,9 @@
 										<view class="ui-item">报修住址: <span class="ui-span">{{item.buildName}}{{item.loucName}}层{{item.roomName}}室</span></view>
 										<view class="ui-item">报修项目: <span class="ui-span">{{item.repairName}}</span></view>
 										<view class="ui-item">报修类型: <span class="ui-span">{{item.warrName}}</span></view>
-
+										<view class="ui-item">开始时间: <span class="ui-span">{{item.startTime | renderTime}}</span></view>
+										<view class="ui-item">完成时间: <span class="ui-span">{{item.endTime | renderTime}}</span></view>
+										
 										<view v-if="item.content" class="ui-item">报修描述: <span class="ui-span">{{item.content}}</span></view>
 										<view class="ui-item" v-if="item.repImgArr">报修图片:</view>
 										<view class="ui-item ui-display">
@@ -41,7 +43,7 @@
 										<view class="cell_dashed">
 										</view>
 										<view class="ui-item">业主评价: <span class="ui-span">{{item.evaluatetext}}</span></view>
-										<view class="ui-item">评分:<span class="ui-span">{{item.satisName}}</span></view>
+										<!-- <view class="ui-item">评分:<span class="ui-span">{{item.satisName}}</span></view> -->
 										<template v-slot:footer>
 											<view class="footer-box">
 												<uni-tag v-if="item.state==1" text="接单" type="primary" :circle="true"  @click="getOrder(item.id)"></uni-tag>
@@ -50,6 +52,22 @@
 												<uni-tag v-if="item.state==4" text="已完成" type="success" :circle="true" ></uni-tag>
 											</view>
 										</template>
+										<view>
+												<view  class="ui-item ui-state4">服务态度</view>
+												<uni-rate :margin="20" class="ui-rate ui-state4  ui-leftmargin" :value="item.serviceSro" @change="onChange" :readonly="true"/>
+											</view>
+										<view>
+											<view  class="ui-item ui-state4">专业技术</view>
+											<uni-rate :margin="20" class="ui-rate ui-state4 ui-leftmargin" :value="item.professionalSro" @change="onChange" :readonly="true"/>
+										</view>
+											<view>
+												<view  class="ui-item ui-state4">维修效率</view>
+												<uni-rate :margin="20" class="ui-rate ui-state4 ui-leftmargin" :value="item.maintenanceSro" @change="onChange" :readonly="true"/>
+											</view>
+											<view>
+												<view  class="ui-item ui-state4">综合评分</view>
+												<uni-rate :margin="20" class="ui-rate ui-state4 ui-leftmargin" :value="item.comprehensiveSro" @change="onChange" :readonly="true"/>
+											</view>
 									</uni-card>
 								</view>
 									</k-scroll-view>
@@ -413,5 +431,11 @@ padding-bottom: 10rpx;
 
 	.ul>view {
 		line-height: 25px;
+	}
+	.ui-state4{
+		display: inline-block;
+	}
+	.ui-leftmargin{
+		margin-left: 32rpx;
 	}
 </style>

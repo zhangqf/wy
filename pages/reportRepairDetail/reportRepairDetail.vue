@@ -1,5 +1,5 @@
 <template>
-	<view class="content">
+	<view class="content" v-if="isloading">
 		<uni-steps class="ui-step" :options="[{title: '待接单'}, {title: '已接单'}, {title: '待评价'}, {title: '已完成'}]" :active="list.state-1"></uni-steps>
 		<uni-card :title="list.userName" note="true" :extra="list.createtime">
 			<view class="ui-item">联系电话: <span class="ui-span">{{list.userTel}}</span></view>
@@ -89,6 +89,7 @@
 				professionalSro:null,
 				maintenanceSro:null,
 				comprehensiveSro:null,
+				isloading:false,
 			};
 		},
 		components: {
@@ -108,6 +109,7 @@
 				uni.hideLoading();
 				this.list = res.data
 				this.host = this.$Host
+				this.isloading = true
 				if(res.data.repimgs!=null){
 					this.list['myimgList'] = this.list.repimgs.split(",")
 				}

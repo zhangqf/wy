@@ -15,6 +15,133 @@
 		
 		onShow: function() {
 			console.log('App Show');
+			// if(uni.getStorageSync('soleType')==3){
+			// 	uni.showModal({
+			// 		title: '订阅消息',
+			// 		content: '是否订阅消息',
+			// 		success: (res) => {
+			// 			if (res.confirm) {
+			// 				uni.requestSubscribeMessage({
+			// 					tmplIds: ['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'],
+			// 					success (res) {
+									
+			// 						 if (res['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'] === 'accept') {
+			// 							  wx.showToast({
+			// 							    title: '订阅OK！',
+			// 							    duration: 1000,
+			// 							    success(data) {
+													
+			// 							    }
+			// 							  })
+			// 						 }
+			// 					}
+			// 				})	
+			// 			} else {
+							
+			// 			}
+			// 		},
+			// 	});
+				
+				
+				
+			// 	var _this = this;
+			// 	    //判断是否已经订阅
+			// 	    wx.getSetting({
+			// 	      withSubscriptions: true,
+			// 	      success(res) {
+			// 					console.log(res)
+			// 	        var itemSettings = res.subscriptionsSetting.itemSettings;
+			// 					console.log(itemSettings)
+			// 					if (itemSettings==undefined) {
+			// 						uni.showModal({
+			// 							title: '订阅消息',
+			// 							content: '是否订阅消息（取消后，得不到新订单通知）',
+			// 							success: (res) => {
+			// 								if (res.confirm) {
+			// 									uni.requestSubscribeMessage({
+			// 										tmplIds: ['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'],
+			// 										success (res) {
+			// 											console.log(res)
+			// 											 if (res['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'] === 'accept') {
+															 
+			// 											 }
+			// 										}
+			// 									})	
+			// 								} else {
+													
+			// 								}
+			// 							},
+			// 						});
+			// 					}
+			// 	        if (itemSettings) {
+			// 	          if (itemSettings['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw']=='accept') {
+			// 							uni.showModal({
+			// 								title: '订阅消息',
+			// 								content: '是否订阅消息',
+			// 								success: (res) => {
+			// 									if (res.confirm) {
+			// 										uni.requestSubscribeMessage({
+			// 											tmplIds: ['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'],
+			// 											success (res) {
+															
+			// 												 if (res['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'] === 'accept') {
+			// 													  wx.showToast({
+			// 													    title: '订阅OK！',
+			// 													    duration: 1000,
+			// 													    success(data) {
+																			
+			// 													    }
+			// 													  })
+			// 												 }
+			// 											}
+			// 										})	
+			// 									} else {
+			// 										uni.requestSubscribeMessage({
+			// 											tmplIds: ['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'],
+			// 											success (res) {
+															
+			// 												 if (res['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'] === 'accept') {
+																 
+			// 												 }
+			// 											}
+			// 										})			
+			// 									}
+			// 								},
+			// 							});
+			// 	          }else{
+			// 							uni.showModal({
+			// 								title: '订阅消息',
+			// 								content: '是否订阅消息（取消后，得不到新订单通知）',
+			// 								success: (res) => {
+			// 									if (res.confirm) {
+			// 										uni.requestSubscribeMessage({
+			// 											tmplIds: ['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'],
+			// 											success (res) {
+			// 												console.log(res)
+			// 												 if (res['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'] === 'accept') {
+			// 													  wx.showToast({
+			// 													    title: '订阅OK！',
+			// 													    duration: 1000,
+			// 													    success(data) {
+																			
+			// 													    }
+			// 													  })
+			// 												 }
+			// 											}
+			// 										})	
+			// 									} else {
+														
+			// 									}
+			// 								},
+			// 							});
+			// 						}
+			// 	        }
+			// 	      }
+			// 	})
+				
+				
+			// }
+			
 		},
 		onHide: function() {
 			console.log('App Hide');

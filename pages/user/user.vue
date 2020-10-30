@@ -1,5 +1,5 @@
 <template>
-	<view class="content">
+	<view class="content" @click="getscope">
 		<!-- <view class="btn-row">
 			<button v-if="!hasLogin" type="primary" class="primary" @tap="bindLogin">登录</button>
 			<button v-if="hasLogin" type="default" @tap="bindLogout">退出登录</button>
@@ -129,6 +129,14 @@
 				uni.navigateTo({
 					url:"../changePassword/changePassword"
 				})
+			},
+			getscope(){
+				uni.requestSubscribeMessage({
+					tmplIds: ['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'],
+					success (res) {
+						console.log(res)
+					}
+				})	
 			},
 			// getList(){
 			// 	let obj = {

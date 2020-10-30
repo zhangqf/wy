@@ -154,6 +154,12 @@
 										uni.setStorageSync('uniIdToken', res.data.id)
 										uni.setStorageSync('clientmessageid', res.data.id)
 										uni.setStorageSync('login_type', 'online')
+										
+										
+										
+										
+										
+										
 									}
 									_self.toMain(_self.username);
 									console.log(res.data)
@@ -190,6 +196,33 @@
 					uni.reLaunch({
 						url: '../main/main',
 					});
+					if(uni.getStorageSync('soleType')==3){
+						uni.showModal({
+							title: '订阅消息',
+							content: '是否订阅消息',
+							success: (res) => {
+								if (res.confirm) {
+									uni.requestSubscribeMessage({
+										tmplIds: ['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'],
+										success (res) {
+											
+											 if (res['FTy336_vGTj_BrwDwwl6ieuk-SqIYO4pE07VGDU4iIw'] === 'accept') {
+												  wx.showToast({
+												    title: '订阅OK！',
+												    duration: 1000,
+												    success(data) {
+															
+												    }
+												  })
+											 }
+										}
+									})	
+								} else {
+									
+								}
+							},
+						});
+						}
 					
 				} else {
 					uni.navigateBack();

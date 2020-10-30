@@ -3,6 +3,9 @@ const header = {}
 const request = (url = '', method = 'POST', data = {}) => {
 	// header['content-type'] = "application/x-www-form-urlencoded";
 	return new Promise((resolve, reject) => {
+		uni.showLoading({
+		    title: '加载中...'
+		});
 		uni.request({
 			method: method,
 			url: host + url,
@@ -19,9 +22,7 @@ const request = (url = '', method = 'POST', data = {}) => {
 					duration: 2000
 				});
 			};
-			uni.showLoading({
-			    title: '加载中'
-			});
+			
 			resolve(res.data);
 		}).catch((error) => {
 			let [err, res] = error || [];

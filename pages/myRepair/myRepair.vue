@@ -121,10 +121,8 @@
 		},
 		filters:{
 			 renderTime(date) {
-					console.log(typeof date)
 					if(date){
 						let str = date.replace(/-/g, '/').replace('T', ' ').replace('.000+0000', '')
-						console.log(new Date(str).toString())
 						 var dates = new Date(new Date(str).toString())
 						 var y = dates.getFullYear()
 						       var m = dates.getMonth() + 1
@@ -250,7 +248,6 @@
 					toatlNum: this.totalNum,
 				}
 				this.$api.getOrderByManager(Obj).then(res => {
-					console.log(res)
 					 uni.hideLoading();
 					if(res.data.length==0){
 						stopLoad ? stopLoad({
@@ -280,13 +277,14 @@
 				}
 				this.$api.getOrderByClientId(Obj).then(res => {
 					console.log(res)
+					uni.hideLoading();
 					if(res.data.length==0){
 						stopLoad ? stopLoad({
 							isEnd: true
 						}) : '';
 						return
 					}
-					 uni.hideLoading();
+					 
 					
 					let listlast = res.data.reverse()
 						if(listlast.length==0){
@@ -360,6 +358,7 @@
 	}
 	.content{
 		padding-bottom: 0;
+		width: 100%;
 	}
 		.manageCard{
 		// flex:none;
